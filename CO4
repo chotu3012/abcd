@@ -1,0 +1,66 @@
+REVERSE-16 BIT
+
+include 'emu8086.inc'
+define_print_num_uns
+define_print_num
+define_scan_num 
+call scan_num 
+mov bp ,10
+mov ax,cx
+mov bx,0 
+reverse:
+cmp ax,0
+jne label 
+je quit
+label: 
+div bp
+mov cx,dx
+mov dx,0
+mov sp,ax
+mov ax,bx
+mul bp
+add ax,cx
+;mov dx,0 
+mov bx,ax
+mov ax,sp
+jmp reverse 
+
+quit: 
+mov ax,bx
+call print_num 
+HLT
+
+
+REVERSE 8-BIT
+
+include 'emu8086.inc'
+define_print_num_uns
+define_print_num
+define_scan_num 
+call scan_num 
+mov bh ,10
+mov al,cl
+mov bl,0 
+jmp reverse
+reverse:
+cmp al,0
+jne label 
+je quit
+label: 
+div bh
+mov dl,ah
+mov dh,al
+mov al,bl
+mul bh
+add al,dl
+mov ah,0 
+mov dl,0
+mov bl,al
+mov al,dh
+jmp reverse 
+
+quit: 
+mov al,bl
+call print_num 
+RET
+

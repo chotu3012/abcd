@@ -1,0 +1,90 @@
+PALINDROME
+
+include 'emu8086.inc'
+define_print_num_uns
+define_print_num
+define_scan_num 
+call scan_num 
+mov bp ,10
+mov si,cx
+mov ax,cx
+mov bx,0 
+reverse:
+cmp ax,0
+jne label 
+je quit
+label: 
+div bp 
+mov cx,dx
+mov dx,0
+mov sp,ax
+mov ax,bx
+mul bp
+add ax,cx
+;mov dx,0 
+mov bx,ax
+mov ax,sp
+jmp reverse 
+
+quit: 
+mov ax,bx
+cmp ax,si
+je palin 
+print "NOT PALINDROME"
+hlt
+palin:
+print "Palindrome "
+hlt
+
+PERFECT NUMBER
+
+include 'emu8086.inc'
+Define_scan_num
+Define_print_num
+Define_print_num_uns
+call scan_num
+mov bx,1 
+mov ax,cx 
+mov bp,ax
+mov cx,0 
+
+perfect: 
+cmp ax,bx
+JE exit
+div bx 
+mov ax,bp
+cmp dx,0
+JE sum 
+mov dx,0 
+inc bx
+jmp perfect
+sum:
+add cx,bx  
+add bx,1
+jmp perfect 
+
+
+exit: 
+cmp bp,cx
+JE show
+PRINT 'NOT PERFECT'
+ret
+show:
+PRINT 'PERFECT'
+RET
+
+POSITIVE NEGATIVE
+
+include 'emu8086.inc'
+Define_scan_num
+Define_print_num
+Define_print_num_uns
+call scan_num
+mov ax,cx
+cmp ax,0
+jg great
+ print 'negative'
+ hlt
+great:
+ print 'positive' 
+

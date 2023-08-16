@@ -1,0 +1,221 @@
+PRINTING ARRAY
+
+include 'emu8086.inc'
+mov bp,0
+lb1:
+cmp bp,4
+je quit
+mov al,a[bp]
+inc bp
+call print_num  
+print ','
+jmp lb1
+
+quit:hlt 
+define_print_num
+define_print_num_uns
+a db 1,2,3,9
+
+ARRAY FACTORIAL   //TRY WITH USER INPUT OR GENERATE FIRST 5 ELEMENTS
+
+include 'emu8086.inc'
+mov si,0
+mov bp,0
+mov al,a[si]
+
+label1:
+cmp a[si],1
+je quit
+dec a[si]
+mul a[si]
+jmp label1
+
+quit:
+mov b[si],al
+inc si
+mov al,a[si]
+cmp si,5
+je quit1
+jmp label1
+
+quit1:
+
+cmp bp,5
+jne pt
+hlt
+pt:
+mov al,b[bp]
+call print_num
+print ','
+inc bp
+jmp quit1
+a db 4,2,5,3,1
+b db ?,?,?,?,?
+define_print_num
+define_print_num_uns
+
+MAXIMUM ELEMENT
+
+include 'emu8086.inc'
+mov si,-1
+mov cl,0
+label1:
+inc si
+cmp si,5
+je quit
+cmp a[si],cl
+jg maximum
+;inc si
+jmp label1
+maximum:
+mov cl,a[si]
+;inc si
+jmp label1:
+quit:
+mov al,cl
+call print_num
+ret
+ 
+define_print_num
+define_print_num_uns
+a db 1,2,9,4,5
+
+MINIMUM ELEMENT
+
+include 'emu8086.inc'
+mov bp,0
+mov bl,a[bp]
+
+label1:
+cmp bp,4
+je quit
+cmp bl,a[bp]
+jg minimum
+inc bp
+jmp label1
+
+minimum:
+mov bl,a[bp]
+inc bp
+jmp label1
+
+quit:
+mov al,bl
+call print_num
+ret    
+a db 2,5,1,6,3
+define_print_num
+define_print_num_uns
+
+NCR
+
+include 'emu8086.inc'  
+print "enter the n "
+call scan_num
+mov bx,cx
+mov ax,1
+n_fact:
+cmp cx,0
+je label1
+mul cx
+dec cx
+jmp n_fact
+
+label1:
+printn "n! is "
+call print_num 
+mov bp,ax   ;n factorial in bp
+mov ax,1
+
+printn "enter the r "
+call scan_num 
+mov di,cx
+r_fact:
+cmp cx,0
+je label2
+ mul cx
+ dec cx
+jmp r_fact
+   
+label2: 
+printn "r! is "
+call print_num
+mov si,ax  ;r factorial in si
+ 
+
+sub bx,di
+mov ax,bx
+printn "sub is"
+call print_num 
+mov ax,1
+label3:
+cmp bx,0
+je quit
+mul bx     
+dec bx
+jmp label3
+
+      
+quit: 
+printn "n-r is "
+call print_num
+;mov sp,ax   ;n-r)! in sp
+mul si
+mov si,ax
+mov dx,0
+mov ax,bp
+div si
+
+print "the result is "
+call print_num
+define_print_num_uns
+define_print_num
+define_scan_num
+hlt
+
+SUM OF ELEMENTS
+
+include 'emu8086.inc'
+mov si,0
+mov ax,0
+label1:
+cmp si,4
+je quit
+add al,arr[si]
+inc si
+jmp label1
+
+quit:
+call print_num
+ hlt
+define_print_num
+define_print_num_uns
+arr db 4,5,8,1
+
+SEARCH ELEMENT
+
+include 'emu8086.inc'
+call scan_num
+mov si,0 
+
+label1:
+cmp si,4
+je quit
+cmp cl,a[si]
+je equal
+inc si
+jmp label1
+
+equal:
+mov ax,si
+printn 'element found at'
+call print_num
+hlt
+
+quit:
+print 'not found'
+hlt
+a db 2,4,1,5
+define_print_num
+define_print_num_uns 
+define_scan_num

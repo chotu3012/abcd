@@ -1,0 +1,152 @@
+LCM AND HCF
+ 
+include 'emu8086.inc'
+;call scan_num 
+mov ax,27 
+mov sp,ax
+;call scan_num
+mov bx,4
+mov si,bx
+cmp bx,ax
+jg swap  
+swap:
+mov bp,ax
+mov ax,bx
+mov bx,bp
+HCF:
+mov dx,0          
+div bx
+cmp dx,0 
+je quit
+jne label
+label:
+mov ax,bx
+mov bx,dx
+jmp HCF
+ 
+ quit:
+ mov ax,bx 
+ print 'HCF is :'
+ call print_num
+ 
+ LCM:
+ mov ax,sp
+ mul si
+ div bx
+ print '  lcm is:'
+ call print_num  
+ define_print_num_uns
+
+SUM OF DIGITS
+
+include 'emu8086.inc'
+define_print_num
+define_print_num_uns
+define_scan_num
+call scan_num
+mov ax,cx
+mov bx,10
+mov cx,0
+label:
+cmp ax,0
+je quit
+sum:
+div bx
+add cx,dx
+mov dx,0
+jmp label
+
+quit:
+mov ax,cx     
+print 'the sum of digits is '
+call print_num
+hlt
+
+SUM OF DIGITS OF ODD PLACES
+
+include 'emu8086.inc'
+call scan_num 
+mov bp ,10
+mov ax,cx
+mov bx,0 
+reverse:
+cmp ax,0
+jne label 
+je quit
+label: 
+div bp
+mov cx,dx
+mov dx,0
+mov sp,ax
+mov ax,bx
+mul bp
+add ax,cx
+;mov dx,0 
+mov bx,ax
+mov ax,sp
+jmp reverse 
+
+quit: 
+mov ax,bx 
+print 'reverse number is'
+call print_num
+mov sp,0 ;count
+mov di,0 ;sum
+mov cx,2 ;divide  count
+mov bx,10 ;divide number
+label2:
+cmp ax,0
+je quit2 
+mov dx,0
+div bx  ;ax/bx
+mov si,dx
+mov dx,0
+inc sp 
+mov bp,ax
+mov ax,sp 
+mov dx,0
+div cx 
+mov ax,bp
+cmp dx,0
+jne sum
+jmp  label2
+ sum:
+ add di,si 
+ jmp label2 
+ 
+ 
+ quit2:
+ mov ax,di
+ printn
+ print 'sum is  '
+ call print_num 
+ define_print_num_uns
+define_print_num
+define_scan_num 
+ hlt
+
+EVEN ODD
+
+include 'emu8086.inc'
+Define_scan_num
+Define_print_num
+Define_print_num_uns
+call scan_num
+mov ax,cx
+mov bx,2
+div bx   
+PRINT 'thr ax is  '
+call print_num
+
+cmp dx,0
+JE label 
+PRINT 'odd'
+RET
+label:
+PRINT 'even'
+
+
+
+
+
+
